@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sociedad de Capital e Industria - Presentación</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Caveat:wght@600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        paper: '#F6F3EC',
+                        card: '#EAE4D7',
+                        forest: '#23382C',
+                        sage: '#6E8572',
+                        terracotta: '#C86D51',
+                        ochre: '#D9A05B',
+                        charcoal: '#2B2B2A'
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"DM Sans"', 'sans-serif'],
+                        hand: ['"Caveat"', 'cursive']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #1e201d;
+            color: #2B2B2A;
+            overflow: hidden;
+            user-select: none;
+        }
+        .paper-texture {
+            background-color: #F6F3EC;
+            background-image: radial-gradient(#d5cec0 0.6px, transparent 0.6px), radial-gradient(#e5dfd3 0.6px, #F6F3EC 0.6px);
+            background-size: 24px 24px;
+            background-position: 0 0, 12px 12px;
+        }
+        .washi-tape {
+            background-color: rgba(217, 160, 91, 0.45);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            backdrop-filter: blur(2px);
+            transform: rotate(-3deg);
+        }
+        .washi-tape-green {
+            background-color: rgba(110, 133, 114, 0.45);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            backdrop-filter: blur(2px);
+            transform: rotate(2.5deg);
+        }
+        .slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+        .slide.active {
+            display: flex;
+            opacity: 1;
+        }
+        .editorial-shadow {
+            box-shadow: 8px 8px 0px #23382C;
+        }
+        .editorial-shadow-sm {
+            box-shadow: 4px 4px 0px #23382C;
+        }
+        .editorial-shadow-terracotta {
+            box-shadow: 6px 6px 0px #C86D51;
+        }
+        @media print {
+            body { overflow: visible; background: white; }
+            .no-print { display: none !important; }
+            .slide { display: flex !important; opacity: 1 !important; page-break-after: always; height: 100vh; }
+        }
+    </style>
+</head>
+<body class="h-screen w-screen flex flex-col justify-between items-center p-2 md:p-6 font-sans">
+
+    <!-- Barra Superior de Herramientas -->
+    <header class="w-full max-w-6xl flex justify-between items-center px-4 py-2 bg-[#2a2d29] text-paper rounded-t-xl border-b border-white/10 no-print">
+        <div class="flex items-center gap-3">
+            <span class="w-3 h-3 rounded-full bg-terracotta inline-block"></span>
+            <span class="w-3 h-3 rounded-full bg-ochre inline-block"></span>
+            <span class="w-3 h-3 rounded-full bg-sage inline-block"></span>
+            <span class="ml-2 text-sm font-medium tracking-wide text-paper/80">Sociedad de Capital e Industria (Ley 19.550)</span>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <!-- Selector rápido de expositor -->
+            <div class="hidden md:flex items-center bg-[#1e201d] rounded-lg p-1 text-xs mr-4">
+                <button onclick="goToSlide(0)" class="px-2.5 py-1 rounded hover:bg-white/10 transition">Portada</button>
+                <button onclick="goToSlide(1)" class="px-2.5 py-1 rounded hover:bg-white/10 transition text-ochre font-medium">1. More</button>
+                <button onclick="goToSlide(3)" class="px-2.5 py-1 rounded hover:bg-white/10 transition text-terracotta font-medium">2. Lauti</button>
+                <button onclick="goToSlide(5)" class="px-2.5 py-1 rounded hover:bg-white/10 transition text-sage font-medium">3. Luquitas</button>
+                <button onclick="goToSlide(7)" class="px-2.5 py-1 rounded hover:bg-white/10 transition text-amber-300 font-medium">4. Lauti Z</button>
+            </div>
+
+            <button onclick="toggleNotes()" id="notesBtn" class="flex items-center gap-1.5 text-xs bg-ochre/20 border border-ochre/50 text-ochre hover:bg-ochre hover:text-charcoal px-3 py-1.5 rounded-lg font-medium transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <span>Ver Guion Exacto</span>
+            </button>
+
+            <button onclick="toggleFullScreen()" class="text-xs bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg transition" title="Pantalla Completa">
+                ⛶ Pantalla Completa
+            </button>
+        </div>
+    </header>
+
+    <!-- Lienzo Principal -->
+    <main class="w-full max-w-6xl flex-1 relative flex items-center justify-center overflow-hidden bg-[#141613] shadow-2xl">
+        <div id="canvas-container" class="w-full h-full paper-texture relative overflow-y-auto md:overflow-hidden flex flex-col justify-between p-6 md:p-12">
+
+            <!-- DIAPOSITIVA 1: PORTADA -->
+            <section class="slide active w-full h-full flex-col md:flex-row items-center justify-between gap-8" data-speaker="Todos" data-notes="Bienvenidos a nuestra presentación sobre la Sociedad de Capital e Industria, regulada por la Ley 19.550. Hoy vamos a exponer More, Lauti, Luquitas y Lauti Z.">
+                <div class="w-full md:w-7/12 flex flex-col justify-center space-y-6 z-10">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 bg-card border border-forest/20 rounded-full w-fit">
+                        <span class="w-2 h-2 rounded-full bg-forest"></span>
+                        <span class="text-xs uppercase tracking-widest font-semibold text-forest">Derecho Societario • Ley N.º 19.550</span>
+                    </div>
+
+                    <h1 class="font-serif text-5xl md:text-7xl text-forest leading-[1.08] tracking-tight">
+                        Sociedad de <br>
+                        <span class="italic font-normal text-terracotta">Capital e Industria</span>
+                    </h1>
+
+                    <p class="text-base md:text-lg text-charcoal/80 max-w-xl leading-relaxed">
+                        La unión estratégica entre los recursos económicos y el talento humano. Análisis de la Sección II, Capítulo II (Artículos 141 al 145).
+                    </p>
+
+                    <div class="pt-4">
+                        <p class="font-hand text-2xl text-sage mb-2">Expositores del equipo:</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <div onclick="goToSlide(1)" class="cursor-pointer bg-white p-3 rounded border border-forest/20 editorial-shadow-sm hover:-translate-y-0.5 transition">
+                                <span class="text-[10px] uppercase tracking-wider text-terracotta font-bold block">Parte 01</span>
+                                <span class="font-serif font-bold text-lg text-forest">More</span>
+                                <span class="text-xs text-charcoal/60 block">Introducción</span>
+                            </div>
+                            <div onclick="goToSlide(3)" class="cursor-pointer bg-white p-3 rounded border border-forest/20 editorial-shadow-sm hover:-translate-y-0.5 transition">
+                                <span class="text-[10px] uppercase tracking-wider text-ochre font-bold block">Parte 02</span>
+                                <span class="font-serif font-bold text-lg text-forest">Lauti</span>
+                                <span class="text-xs text-charcoal/60 block">Capital y Deudas</span>
+                            </div>
+                            <div onclick="goToSlide(5)" class="cursor-pointer bg-white p-3 rounded border border-forest/20 editorial-shadow-sm hover:-translate-y-0.5 transition">
+                                <span class="text-[10px] uppercase tracking-wider text-sage font-bold block">Parte 03</span>
+                                <span class="font-serif font-bold text-lg text-forest">Luquitas</span>
+                                <span class="text-xs text-charcoal/60 block">Administración</span>
+                            </div>
+                            <div onclick="goToSlide(7)" class="cursor-pointer bg-white p-3 rounded border border-forest/20 editorial-shadow-sm hover:-translate-y-0.5 transition">
+                                <span class="text-[10px] uppercase tracking-wider text-forest font-bold block">Parte 04</span>
+                                <span class="font-serif font-bold text-lg text-forest">Lauti Z</span>
+                                <span class="text-xs text-charcoal/60 block">Retiro y Disolución</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full md:w-5/12 relative flex items-center justify-center h-72 md:h-full">
+                    <div class="relative w-72 md:w-80 bg-white p-3 pb-8 border border-charcoal/10 shadow-xl rotate-2">
+                        <div class="w-24 h-6 washi-tape absolute -top-3 left-1/2 -translate-x-1/2"></div>
+                        <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=700&q=80" alt="Trabajo y Capital" class="w-full h-56 object-cover grayscale-[20%] contrast-105">
+                        <p class="font-hand text-center text-xl text-charcoal mt-3">Confianza + Colaboración (S.C.I.)</p>
+                    </div>
+
+                    <div class="absolute -bottom-2 -left-2 bg-card p-3 rounded-lg border-2 border-forest editorial-shadow-sm flex items-center gap-3 max-w-[230px] -rotate-2">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&color=23382C&bgcolor=EAE4D7&data=https://servicios.infoleg.gob.ar/infolegInternet/anexos/25000-29999/25553/texact.htm" alt="QR Ley 19550" class="w-14 h-14 rounded border border-forest/20">
+                        <div>
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-terracotta block">Escanear Ley</span>
+                            <p class="text-xs font-semibold text-forest leading-tight">Ley N.º 19.550 en InfoLEG Oficial</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DIAPOSITIVA 2: MORE (Parte 1) -->
+            <section class="slide w-full h-full flex-col justify-between" data-speaker="More" data-notes="La Sociedad de Capital e Industria, abreviada S.C.I., es un tipo de sociedad regulada por la Ley General de Sociedades N.º 19.550, específicamente en la Sección II del Capítulo II, entre los artículos 141 y 145.<br><br>Está formada por dos tipos de socios: los socios capitalistas y los socios industriales.<br>Los socios capitalistas son los que aportan dinero o bienes, mientras que los socios industriales aportan principalmente su trabajo, conocimientos o habilidades. Esta diferencia entre los aportes es la principal característica de este tipo de sociedad.<br><br>Puede estar formada por dos o más personas, pero debe existir al menos un socio capitalista y un socio industrial. Esto permite que dentro de la sociedad se combinen los recursos económicos con el trabajo y los conocimientos de sus integrantes.">
+                <div class="flex justify-between items-center border-b-2 border-forest/15 pb-3">
+                    <div class="flex items-center gap-3">
+                        <span class="bg-terracotta text-white font-serif font-bold px-3 py-1 rounded text-sm">Expositora: More</span>
+                        <h2 class="font-serif text-2xl md:text-3xl text-forest">1. Introducción: ¿Qué es la S.C.I.?</h2>
+                    </div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-sage hidden sm:block">Arts. 141 al 145 • Ley 19.550</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 my-auto py-4 items-center">
+                    <div class="md:col-span-4 bg-card p-6 rounded-xl border-2 border-forest editorial-shadow flex flex-col justify-between space-y-4">
+                        <div>
+                            <span class="text-xs uppercase font-bold tracking-widest text-terracotta">Marco Normativo</span>
+                            <h3 class="font-serif text-2xl text-forest mt-1">Ley General de Sociedades N.º 19.550</h3>
+                            <p class="text-sm text-charcoal/80 mt-2 leading-relaxed">
+                                Regulada en la <strong>Sección II del Capítulo II</strong> (Artículos 141 a 145). Abreviada oficialmente como <strong>S.C.I.</strong>
+                            </p>
+                        </div>
+                        <div class="bg-paper p-4 rounded-lg border border-forest/20">
+                            <p class="font-hand text-xl text-forest">Requisito de constitución:</p>
+                            <p class="text-xs text-charcoal/90 mt-1">
+                                Puede estar formada por <strong>dos o más personas</strong>, pero debe existir al menos <strong>un socio capitalista</strong> y <strong>un socio industrial</strong>.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="bg-white p-6 rounded-xl border-2 border-forest relative">
+                            <div class="w-20 h-5 washi-tape absolute -top-2.5 right-6"></div>
+                            <div class="w-12 h-12 rounded-lg bg-ochre/20 border border-ochre flex items-center justify-center text-2xl mb-4">🏛️</div>
+                            <h4 class="font-serif text-2xl text-forest">Socios Capitalistas</h4>
+                            <p class="text-sm text-charcoal/80 mt-2 leading-relaxed">
+                                Son los integrantes que aportan <strong>dinero en efectivo o bienes materiales</strong> (inmuebles, maquinarias, insumos) para poner en marcha la estructura económica.
+                            </p>
+                            <div class="mt-4 pt-3 border-t border-charcoal/10 flex items-center justify-between text-xs font-semibold text-ochre">
+                                <span>APORTE: DAR</span>
+                                <span>Recursos Económicos</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-xl border-2 border-forest relative">
+                            <div class="w-20 h-5 washi-tape-green absolute -top-2.5 left-6"></div>
+                            <div class="w-12 h-12 rounded-lg bg-sage/20 border border-sage flex items-center justify-center text-2xl mb-4">🛠️</div>
+                            <h4 class="font-serif text-2xl text-forest">Socios Industriales</h4>
+                            <p class="text-sm text-charcoal/80 mt-2 leading-relaxed">
+                                Aportan principalmente su <strong>trabajo personal, conocimientos técnicos o habilidades</strong>. Esta diferencia de aportes es el rasgo distintivo de la sociedad.
+                            </p>
+                            <div class="mt-4 pt-3 border-t border-charcoal/10 flex items-center justify-between text-xs font-semibold text-sage">
+                                <span>APORTE: HACER</span>
+                                <span>Trabajo y Conocimiento</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-forest text-paper px-6 py-3 rounded-lg flex flex-col sm:flex-row items-center justify-between text-sm">
+                    <span>💡 <strong>Característica Principal:</strong> Combinar recursos económicos con el trabajo y talento de sus integrantes.</span>
+                    <span class="font-hand text-xl text-ochre">Diapositiva 2 de 9</span>
+                </div>
+            </section>
+
+            <!-- DIAPOSITIVA 3: MORE (Parte 2) -->
+            <section class="slide w-full h-full flex-col justify-between" data-speaker="More" data-notes="La relación entre los socios es muy importante porque se basa en la confianza y la colaboración. Cada uno realiza un aporte diferente y, por eso, también tiene diferentes derechos y responsabilidades dentro de la sociedad.<br><br>Por ejemplo, una persona puede aportar el dinero necesario para comenzar una actividad, mientras que otra puede aportar sus conocimientos o su trabajo para llevarla adelante. De esta manera, ambos aportes son importantes para el funcionamiento de la sociedad.<br><br>Además, la Sociedad de Capital e Industria tiene personalidad jurídica propia. Esto significa que la sociedad es diferente de las personas que la forman y tiene sus propios derechos y obligaciones.<br>En cuanto a su nombre, puede utilizarse una denominación acompañada por la expresión “Sociedad de Capital e Industria” o “S.C.I.”.<br><br>Entonces, para entender fácilmente este tipo de sociedad, podemos decir que se basa en la combinación de capital y trabajo: los socios capitalistas aportan los recursos económicos, mientras que los socios industriales aportan su trabajo, conocimientos o habilidades.">
+                <div class="flex justify-between items-center border-b-2 border-forest/15 pb-3">
+                    <div class="flex items-center gap-3">
+                        <span class="bg-terracotta text-white font-serif font-bold px-3 py-1 rounded text-sm">Expositora: More</span>
+                        <h2 class="font-serif text-2xl md:text-3xl text-forest">Esencia, Personalidad Jurídica y Nombre</h2>
+                    </div>
+                    <span class="font-hand text-2xl text-terracotta hidden sm:block">"Confianza y colaboración mutua"</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-auto py-4">
+                    <div class="bg-white rounded-xl border-2 border-forest overflow-hidden flex flex-col">
+                        <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=600&q=80" alt="Ejemplo negocio" class="w-full h-36 object-cover">
+                        <div class="p-5 flex-1 flex flex-col justify-between">
+                            <div>
+                                <span class="text-xs font-bold uppercase text-terracotta">Ejemplo Cotidiano</span>
+                                <h3 class="font-serif text-xl text-forest mt-1">Confianza y Colaboración</h3>
+                                <p class="text-xs sm:text-sm text-charcoal/80 mt-2 leading-relaxed">
+                                    Una persona aporta el <strong>dinero necesario</strong> para abrir el negocio, mientras que otra aporta su <strong>oficio y conocimientos</strong> para llevarlo adelante. Ambos aportes son igual de importantes.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-card rounded-xl border-2 border-forest p-6 flex flex-col justify-between editorial-shadow">
+                        <div>
+                            <div class="w-10 h-10 rounded-full bg-forest text-paper flex items-center justify-center font-serif font-bold text-lg mb-3">⚖️</div>
+                            <h3 class="font-serif text-2xl text-forest">Personalidad Jurídica Propia</h3>
+                            <p class="text-sm text-charcoal/80 mt-3 leading-relaxed">
+                                La sociedad es un <strong>ente diferente</strong> de las personas físicas que la forman.
+                            </p>
+                            <ul class="mt-4 space-y-2 text-xs sm:text-sm text-charcoal/90">
+                                <li class="flex items-center gap-2">✔ Tiene sus propios derechos.</li>
+                                <li class="flex items-center gap-2">✔ Contrae sus propias obligaciones.</li>
+                                <li class="flex items-center gap-2">✔ Posee patrimonio diferenciado.</li>
+                            </ul>
+                        </div>
+                        <div class="bg-paper p-3 rounded border border-forest/20 text-xs text-forest font-medium">
+                            Cada socio tiene derechos y responsabilidades distintas según su aporte.
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl border-2 border-forest p-6 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-bold uppercase text-sage">Identidad Legal</span>
+                            <h3 class="font-serif text-2xl text-forest mt-1">Nombre de la Sociedad</h3>
+                            <p class="text-sm text-charcoal/80 mt-2 leading-relaxed">
+                                Se utiliza una denominación social o razón social, siempre acompañada de la expresión completa o su sigla:
+                            </p>
+                            <div class="mt-4 space-y-3">
+                                <div class="p-3 bg-paper border-l-4 border-terracotta rounded">
+                                    <p class="text-xs text-charcoal/60">Opción Completa:</p>
+                                    <p class="font-serif font-bold text-forest text-sm">“Panificadora Del Sur Sociedad de Capital e Industria”</p>
+                                </div>
+                                <div class="p-3 bg-paper border-l-4 border-forest rounded">
+                                    <p class="text-xs text-charcoal/60">Opción Abreviada:</p>
+                                    <p class="font-serif font-bold text-forest text-sm">“Panificadora Del Sur S.C.I.”</p>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="font-hand text-xl text-center text-terracotta mt-3">Resumen: Capital + Trabajo</p>
+                    </div>
+                </div>
+
+                <div class="bg-card border border-forest/20 px-6 py-2.5 rounded-lg flex items-center justify-between text-xs sm:text-sm">
+                    <span><strong>En síntesis:</strong> Los socios capitalistas aportan recursos económicos y los industriales su trabajo, conocimientos o habilidades.</span>
+                    <span class="font-hand text-lg text-forest">Diapositiva 3 de 9</span>
+                </div>
+            </section>
+
+            <!-- DIAPOSITIVA 4: LAUTI (Parte 1) -->
+            <section class="slide w-full h-full flex-col justify-between" data-speaker="Lauti" data-notes="El capital social está formado por los aportes realizados por los socios capitalistas. Estos aportes pueden ser dinero o bienes.<br>Los socios industriales, en cambio, no aportan capital, sino que aportan su trabajo, conocimientos, habilidades o actividad técnica. Por eso, cada tipo de socio contribuye de una manera diferente al funcionamiento de la sociedad.<br><br>Una característica importante es que no existe un capital mínimo legal específico para constituir una Sociedad de Capital e Industria.<br><br>El capital se divide en partes de interés, relacionadas con los aportes realizados por los socios. La participación de un socio puede transferirse, pero existen restricciones. Generalmente, se necesita el consentimiento de los demás socios, salvo que el contrato social establezca algo diferente.">
+                <div class="flex justify-between items-center border-b-2 border-forest/15 pb-3">
+                    <div class="flex items-center gap-3">
+                        <span class="bg-ochre text-charcoal font-serif font-bold px-3 py-1 rounded text-sm">Expositor: Lauti</span>
+                        <h2 class="font-serif text-2xl md:text-3xl text-forest">2. El Capital Social y su División</h2>
+                    </div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-terracotta hidden sm:block">Conformación Patrimonial</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 my-auto py-4 items-stretch">
+                    <div class="md:col-span-7 flex flex-col justify-between space-y-4">
+                        <div class="bg-white p-5 rounded-xl border-2 border-forest editorial-shadow-sm">
+                            <h3 class="font-serif text-xl text-forest flex items-center gap-2">
+                                <span class="text-terracotta">01.</span> ¿Cómo se forma el Capital Social?
+                            </h3>
+                            <p class="text-sm text-charcoal/80 mt-2 leading-relaxed">
+                                Está formado <strong>exclusivamente por los aportes de los socios capitalistas</strong> (dinero o bienes). Los socios industriales <strong>no aportan capital</strong>, sino su actividad técnica, conocimientos o habilidades.
+                            </p>
+                        </div>
+
+                        <div class="bg-card p-5 rounded-xl border-2 border-forest editorial-shadow-sm">
+                            <h3 class="font-serif text-xl text-forest flex items-center gap-2">
+                                <span class="text-terracotta">02.</span> Sin Capital Mínimo Legal
+                            </h3>
+                            <p class="text-sm text-charcoal/80 mt-2 leading-relaxed">
+                                Una ventaja clave es que <strong>no existe un capital mínimo legal específico</strong> exigido por la ley para constituir una S.C.I., adaptándose al tamaño real del emprendimiento.
+                            </p>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-xl border-2 border-forest editorial-shadow-sm">
+                            <h3 class="font-serif text-xl text-forest flex items-center gap-2">
+                                <span class="text-terracotta">03.</span> División en "Partes de Interés"
+                            </h3>
+                            <p class="text-sm text-charcoal/80 mt-2 leading-relaxed">
+                                El capital se divide en <strong>partes de interés</strong> según los aportes. Transferir la participación tiene <strong>restricciones</strong>: generalmente requiere el <strong>consentimiento de los demás socios</strong>, salvo pacto contrario en el contrato.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-5 bg-forest text-paper rounded-xl p-6 flex flex-col justify-between relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" alt="Finanzas" class="w-full h-44 object-cover rounded-lg mb-4 opacity-90">
+                        <div>
+                            <span class="px-2.5 py-1 bg-ochre text-charcoal text-xs font-bold rounded uppercase">Dato Clave</span>
+                            <h4 class="font-serif text-2xl text-paper mt-3">¿Por qué hay restricciones para transferir?</h4>
+                            <p class="text-xs sm:text-sm text-paper/80 mt-2 leading-relaxed">
+                                Al ser una sociedad de personas donde importa quién es cada socio, nadie puede incorporar a un desconocido sin el acuerdo mutuo.
+                            </p>
+                        </div>
+                        <p class="font-hand text-2xl text-ochre text-right mt-2">Partes de Interés ≠ Acciones libres</p>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center text-xs text-charcoal/60 border-t border-forest/15 pt-2">
+                    <span>Exposición: Lauti • Capital y Responsabilidad</span>
+                    <span class="font-hand text-lg text-forest">Diapositiva 4 de 9</span>
+                </div>
+            </section>
+
+            <!-- DIAPOSITIVA 5: LAUTI (Parte 2) -->
+            <section class="slide w-full h-full flex-col justify-between" data-speaker="Lauti" data-notes="En cuanto a las deudas, los socios capitalistas tienen responsabilidad solidaria, ilimitada y subsidiaria. Esto significa que primero deben utilizarse los bienes de la sociedad para pagar sus deudas y, si estos no alcanzan, los acreedores pueden reclamar a los socios capitalistas.<br><br>Por ejemplo, si la sociedad tiene una deuda de $10.000.000, pero solamente puede pagar $7.000.000 con sus propios bienes, primero se utilizan esos $7.000.000. Los $3.000.000 restantes pueden ser reclamados a los socios capitalistas.<br><br>El socio industrial, en cambio, no responde con su patrimonio personal por las pérdidas de la sociedad. Su riesgo está relacionado con no recibir las ganancias que tuviera pendientes de percibir.<br><br>Por lo tanto, podemos decir que existe una diferencia importante entre los socios: los capitalistas aportan recursos económicos y tienen una responsabilidad mayor frente a las deudas, mientras que los industriales aportan principalmente su trabajo o conocimientos.">
+                <div class="flex justify-between items-center border-b-2 border-forest/15 pb-3">
+                    <div class="flex items-center gap-3">
+                        <span class="bg-ochre text-charcoal font-serif font-bold px-3 py-1 rounded text-sm">Expositor: Lauti</span>
+                        <h2 class="font-serif text-2xl md:text-3xl text-forest">Responsabilidad frente a las Deudas</h2>
+                    </div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-terracotta hidden sm:block">Caso Práctico Numérico</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 my-auto py-4 items-center">
+                    <div class="md:col-span-5 space-y-4">
+                        <div class="bg-white p-5 rounded-xl border-2 border-terracotta editorial-shadow-terracotta">
+                            <span class="text-xs font-bold uppercase text-terracotta">Socio Capitalista</span>
+                            <h3 class="font-serif text-xl text-forest mt-1">Solidaria, Ilimitada y Subsidiaria</h3>
+                            <p class="text-xs sm:text-sm text-charcoal/80 mt-2 leading-relaxed">
+                                Primero se usan los bienes de la sociedad (<em>subsidiaria</em>). Si no alcanzan, los acreedores pueden reclamar todo el resto a cualquiera de los socios capitalistas con su patrimonio personal.
+                            </p>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-xl border-2 border-sage editorial-shadow-sm">
+                            <span class="text-xs font-bold uppercase text-sage">Socio Industrial</span>
+                            <h3 class="font-serif text-xl text-forest mt-1">Patrimonio Personal Protegido</h3>
+                            <p class="text-xs sm:text-sm text-charcoal/80 mt-2 leading-relaxed">
+                                <strong>No responde con sus bienes personales</strong> por las pérdidas. Su único riesgo es haber trabajado y no cobrar las ganancias pendientes de percibir.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-7 bg-card p-6 rounded-xl border-2 border-forest editorial-shadow">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-serif text-2xl text-forest">Simulación de Deuda Social</h3>
+                            <span class="font-hand text-2xl text-terracotta">Ejemplo práctico</span>
+                        </div>
+
+                        <div class="space-y-4 bg-paper p-5 rounded-lg border border-forest/20">
+                            <div>
+                                <div class="flex justify-between text-sm font-bold mb-1">
+                                    <span>Deuda Total con Acreedores:</span>
+                                    <span class="text-terracotta text-base">$10.000.000</span>
+                                </div>
+                                <div class="w-full h-4 bg-gray-300 rounded-full overflow-hidden flex">
+                                    <div class="bg-forest h-full" style="width: 70%" title="Paga la Sociedad"></div>
+                                    <div class="bg-terracotta h-full" style="width: 30%" title="Pagan Socios Capitalistas"></div>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                                <div class="bg-white p-3.5 rounded border-l-4 border-forest">
+                                    <span class="text-xs text-charcoal/60 block">1º Paso: Bienes de la Sociedad</span>
+                                    <span class="font-serif font-bold text-xl text-forest">$7.000.000</span>
+                                    <p class="text-xs text-charcoal/70 mt-1">Se utilizan primero todos los fondos de la empresa.</p>
+                                </div>
+                                <div class="bg-white p-3.5 rounded border-l-4 border-terracotta">
+                                    <span class="text-xs text-charcoal/60 block">2º Paso: Reclamo a Capitalistas</span>
+                                    <span class="font-serif font-bold text-xl text-terracotta">$3.000.000</span>
+                                    <p class="text-xs text-charcoal/70 mt-1">El saldo restante lo cubren los socios capitalistas.</p>
+                                </div>
+                            </div>
+
+                            <div class="text-center pt-2 border-t border-forest/10 text-xs font-medium text-forest">
+                                🛡️ <strong>¿Y el Socio Industrial?</strong> Aporta $0 de su bolsillo personal para cubrir esos $3.000.000.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center text-xs text-charcoal/60 border-t border-forest/15 pt-2">
+                    <span>Conclusión de Lauti: Mayor responsabilidad patrimonial para quien aporta el capital.</span>
+                    <span class="font-hand text-lg text-forest">Diapositiva 5 de 9</span>
+                </div>
+            </section>
+
+            <!-- DIAPOSITIVA 6: LUQUITAS (Parte 1) -->
+            <section class="slide w-full h-full flex-col justify-between" data-speaker="Luquitas" data-notes="La administración puede estar a cargo de cualquiera de los socios, ya sea un socio capitalista o industrial, según lo establecido en el contrato social.<br>La representación legal también puede ser ejercida por uno o varios socios designados para esa función. No es obligatorio que todos administren la sociedad, aunque todos pueden participar en las decisiones.<br><br>Las decisiones se toman mediante el voto de los socios. Para el voto del socio industrial, la ley considera que tiene un capital equivalente al del socio capitalista que realizó el menor aporte. De esta manera, el socio industrial puede participar en las decisiones aunque no haya realizado un aporte de capital.">
+                <div class="flex justify-between items-center border-b-2 border-forest/15 pb-3">
+                    <div class="flex items-center gap-3">
+                        <span class="bg-sage text-white font-serif font-bold px-3 py-1 rounded text-sm">Expositor: Luquitas</span>
+                        <h2 class="font-serif text-2xl md:text-3xl text-forest">3. Administración y Derecho a Voto</h2>
+                    </div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-sage hidden sm:block">Artículos 143 y 145</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 my-auto py-4 items-center">
+                    <div class="md:col-span-6 space-y-5">
+                        <div class="bg-white p-6 rounded-xl border-2 border-forest editorial-shadow">
+                            <span class="text-xs font-bold uppercase text-sage">Gestión de la Sociedad</span>
+                            <h3 class="font-serif text-2xl text-forest mt-1">¿Quién puede Administrar?</h3>
+                            <p class="text-sm text-charcoal/80 mt-2 leading-relaxed">
+                                La administración puede estar a cargo de <strong>cualquiera de los socios</strong>, tanto un <strong>socio capitalista</strong> como un <strong>socio industrial</strong>, según lo pactado en el contrato social.
+                            </p>
+                            <div class="mt-4 p-3 bg-paper rounded border border-forest/20 text-xs space-y-1.5">
+                                <p>🔹 <strong>Representación Legal:</strong> Puede ser ejercida por uno o varios socios designados.</p>
+                                <p>🔹 <strong>Participación:</strong> No es obligatorio que todos administren, pero <strong>todos participan en las decisiones</strong>.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4 bg-card p-4 rounded-xl border border-forest/30">
+                            <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=300&q=80" alt="Acuerdo" class="w-20 h-20 rounded-lg object-cover">
+                            <p class="text-xs sm:text-sm text-charcoal/90 italic">
+                                "Tanto quien pone el dinero como quien pone el trabajo tienen derecho a dirigir el rumbo de la empresa."
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-6 bg-forest text-paper p-6 rounded-xl editorial-shadow-terracotta flex flex-col justify-between">
+                        <div>
+                            <div class="inline-block px-3 py-1 bg-terracotta text-white text-xs font-bold rounded-full mb-3">
+                                Regla Especial de Votación
+                            </div>
+                            <h3 class="font-serif text-2xl text-paper">¿Cuánto vale el voto del Socio Industrial?</h3>
+                            <p class="text-sm text-paper/85 mt-2 leading-relaxed">
+                                Como el socio industrial no aportó dinero, la ley establece una regla justa para que pueda votar: se le computa un <strong>capital equivalente al del socio capitalista con el menor aporte</strong>.
+                            </p>
+                        </div>
+
+                        <div class="bg-paper text-charcoal p-4 rounded-lg mt-5">
+                            <p class="text-xs font-bold uppercase text-forest mb-3">Ejemplo de cómputo de votos:</p>
+                            <div class="grid grid-cols-3 gap-2 text-center">
+                                <div class="p-2.5 bg-card rounded border border-forest/20">
+                                    <span class="text-[11px] font-bold block text-charcoal/70">Capitalista A</span>
+                                    <span class="font-serif font-bold text-lg text-forest">60%</span>
+                                    <span class="text-[10px] block text-charcoal/60">(Mayor aporte)</span>
+                                </div>
+                                <div class="p-2.5 bg-card rounded border-2 border-ochre">
+                                    <span class="text-[11px] font-bold block text-charcoal/70">Capitalista B</span>
+                                    <span class="font-serif font-bold text-lg text-ochre">20%</span>
+                                    <span class="text-[10px] block text-charcoal/60">(Menor aporte)</span>
+                                </div>
+                                <div class="p-2.5 bg-terracotta/15 rounded border-2 border-terracotta">
+                                    <span class="text-[11px] font-bold block text-terracotta">Socio Industrial</span>
+                                    <span class="font-serif font-bold text-lg text-terracotta">= 20%</span>
+                                    <span class="text-[10px] block text-charcoal/70">(Iguala al menor)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center text-xs text-charcoal/60 border-t border-forest/15 pt-2">
+                    <span>Exposición: Luquitas • Administración y Funcionamiento</span>
+                    <span class="font-hand text-lg text-forest">Diapositiva 6 de 9</span>
+                </div>
+            </section>
+
+            <!-- DIAPOSITIVA 7: LUQUITAS (Parte 2) -->
+            <section class="slide w-full h-full flex-col justify-between" data-speaker="Luquitas" data-notes="La sociedad se constituye mediante un contrato social, que puede hacerse por instrumento público o privado.<br>En este contrato deben identificarse los socios capitalistas e industriales, indicar en qué consiste el aporte del socio industrial y establecer cómo se van a distribuir las ganancias.<br><br>También debe establecerse la denominación de la sociedad y debe inscribirse en el Registro Público correspondiente.<br>Las ganancias se distribuyen principalmente según lo acordado en el contrato. Si este no establece cuánto corresponde al socio industrial, su parte puede ser determinada judicialmente de manera equitativa, teniendo en cuenta la importancia y el valor de su trabajo.<br><br>Por eso, el contrato social es fundamental para establecer cómo va a funcionar la sociedad y cuáles serán las obligaciones y derechos de cada socio.">
+                <div class="flex justify-between items-center border-b-2 border-forest/15 pb-3">
+                    <div class="flex items-center gap-3">
+                        <span class="bg-sage text-white font-serif font-bold px-3 py-1 rounded text-sm">Expositor: Luquitas</span>
+                        <h2 class="font-serif text-2xl md:text-3xl text-forest">El Contrato Social y las Ganancias</h2>
+                    </div>
+                    <span class="font-hand text-2xl text-sage hidden sm:block">La pieza fundamental de la S.C.I.</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 my-auto py-4 items-stretch">
+                    <div class="md:col-span-7 bg-white p-6 rounded-xl border-2 border-forest editorial-shadow flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <span class="text-xs font-bold uppercase text-terracotta">Constitución Legal</span>
+                                    <h3 class="font-serif text-2xl text-forest">Requisitos del Contrato Social</h3>
+                                </div>
+                                <span class="bg-card px-2.5 py-1 rounded text-xs font-semibold border border-forest/20">Instrumento Público o Privado</span>
+                            </div>
+
+                            <div class="mt-4 space-y-3">
+                                <div class="flex items-start gap-3 p-2.5 bg-paper rounded-lg">
+                                    <span class="bg-forest text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">1</span>
+                                    <p class="text-xs sm:text-sm"><strong>Identificar a los socios:</strong> Distinguir claramente quiénes son los socios capitalistas y quiénes los industriales.</p>
+                                </div>
+                                <div class="flex items-start gap-3 p-2.5 bg-paper rounded-lg">
+                                    <span class="bg-forest text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">2</span>
+                                    <p class="text-xs sm:text-sm"><strong>Detallar el aporte industrial:</strong> Indicar específicamente en qué consiste el trabajo o conocimiento del socio industrial.</p>
+                                </div>
+                                <div class="flex items-start gap-3 p-2.5 bg-paper rounded-lg">
+                                    <span class="bg-forest text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">3</span>
+                                    <p class="text-xs sm:text-sm"><strong>Distribución de ganancias:</strong> Pactar los porcentajes de beneficios para cada integrante.</p>
+                                </div>
+                                <div class="flex items-start gap-3 p-2.5 bg-paper rounded-lg">
+                                    <span class="bg-forest text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">4</span>
+                                    <p class="text-xs sm:text-sm"><strong>Denominación e Inscripción:</strong> Fijar el nombre social e inscribir el contrato en el <strong>Registro Público</strong> correspondiente.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-5 flex flex-col justify-between space-y-4">
+                        <div class="bg-card p-5 rounded-xl border-2 border-forest editorial-shadow-sm flex-1 flex flex-col justify-center">
+                            <span class="text-xs font-bold uppercase text-forest">Art. 144 • Beneficios</span>
+                            <h4 class="font-serif text-xl text-forest mt-1">¿Qué pasa si olvidan fijar la ganancia del socio industrial?</h4>
+                            <p class="text-xs sm:text-sm text-charcoal/85 mt-2 leading-relaxed">
+                                Si el contrato no lo establece, su parte <strong>se determinará judicialmente de manera equitativa</strong>, donde un juez valorará la importancia y el valor real de su trabajo para la empresa.
+                            </p>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl border-2 border-forest flex items-center gap-4">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&color=23382C&bgcolor=FFFFFF&data=https://www.argentina.gob.ar/justicia/derechofacil/leysimple/sociedades" alt="QR Ley Simple" class="w-16 h-16 rounded border border-forest/20 shrink-0">
+                            <div>
+                                <span class="text-[10px] font-bold uppercase text-terracotta">Código QR Interactivo</span>
+                                <h5 class="font-serif font-bold text-base text-forest">Guía Oficial "Ley Simple"</h5>
+                                <p class="text-xs text-charcoal/70">Escaneá para ver el resumen del Ministerio de Justicia sobre contratos societarios.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center text-xs text-charcoal/60 border-t border-forest/15 pt-2">
+                    <span>El contrato social es la base de todos los derechos y obligaciones.</span>
+                    <span class="font-hand text-lg text-forest">Diapositiva 7 de 9</span>
+                </div>
+            </section>
+
+            <!-- DIAPOSITIVA 8: LAUTI Z (Parte 1) -->
+            <section class="slide w-full h-full flex-col justify-between" data-speaker="Lauti Z" data-notes="Si un socio capitalista quiere retirarse, generalmente necesita la conformidad de los demás socios para transferir su participación, salvo que el contrato establezca otra cosa.<br>El socio industrial puede retirarse o dejar de prestar su trabajo y tiene derecho a cobrar las ganancias o prestaciones que tenga pendientes.<br><br>Si el único socio industrial se retira, fallece o queda incapacitado, la sociedad tiene tres meses para reemplazarlo o transformarse en otro tipo de sociedad. Si esto no ocurre, puede producirse la disolución.<br><br>La sociedad puede disolverse por diferentes causas, como el vencimiento del plazo, la decisión de los socios, la pérdida del capital social, la quiebra o la imposibilidad de cumplir con su objetivo.<br>También puede disolverse si faltan o se retiran todos los socios industriales y no son reemplazados ni se realiza una transformación de la sociedad dentro del plazo establecido.">
+                <div class="flex justify-between items-center border-b-2 border-forest/15 pb-3">
+                    <div class="flex items-center gap-3">
+                        <span class="bg-forest text-ochre font-serif font-bold px-3 py-1 rounded text-sm">Expositor: Lauti Z</span>
+                        <h2 class="font-serif text-2xl md:text-3xl text-forest">4. Retiro de Socios y Causas de Disolución</h2>
+                    </div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-terracotta hidden sm:block">Crisis y Continuidad</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 my-auto py-4">
+                    <div class="md:col-span-5 space-y-4 flex flex-col justify-between">
+                        <div class="bg-white p-4 rounded-xl border-2 border-forest">
+                            <h3 class="font-serif text-lg text-forest font-bold">🚪 Retiro del Socio Capitalista</h3>
+                            <p class="text-xs sm:text-sm text-charcoal/80 mt-1">
+                                Generalmente necesita la <strong>conformidad de los demás socios</strong> para transferir su parte, salvo pacto contrario en el contrato.
+                            </p>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl border-2 border-forest">
+                            <h3 class="font-serif text-lg text-forest font-bold">🛠️ Retiro del Socio Industrial</h3>
+                            <p class="text-xs sm:text-sm text-charcoal/80 mt-1">
+                                Puede dejar de prestar su trabajo y tiene <strong>derecho a cobrar todas las ganancias o prestaciones pendientes</strong> hasta ese momento.
+                            </p>
+                        </div>
+
+                        <div class="bg-terracotta text-white p-4 rounded-xl editorial-shadow-sm">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs uppercase tracking-wider font-bold bg-black/20 px-2 py-0.5 rounded">Plazo Legal Crítico</span>
+                                <span class="font-serif font-bold text-xl">⏱️ 3 Meses</span>
+                            </div>
+                            <p class="text-xs sm:text-sm mt-2 leading-relaxed">
+                                Si el <strong>único socio industrial</strong> se retira, fallece o queda incapacitado, la sociedad tiene <strong>3 meses</strong> para reemplazarlo o transformarse en otro tipo societario, o se disuelve.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-7 bg-card p-6 rounded-xl border-2 border-forest editorial-shadow flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-bold uppercase text-forest">Fin de la Vida Societaria</span>
+                            <h3 class="font-serif text-2xl text-forest mt-1">Causas Generales y Especiales de Disolución</h3>
+                            <p class="text-xs sm:text-sm text-charcoal/80 mt-1">La Sociedad de Capital e Industria puede disolverse por:</p>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+                                <div class="bg-paper p-3 rounded border border-forest/20 flex items-center gap-2.5">
+                                    <span class="text-lg">📅</span>
+                                    <span class="text-xs sm:text-sm font-medium">Vencimiento del plazo de duración.</span>
+                                </div>
+                                <div class="bg-paper p-3 rounded border border-forest/20 flex items-center gap-2.5">
+                                    <span class="text-lg">🤝</span>
+                                    <span class="text-xs sm:text-sm font-medium">Decisión voluntaria de los socios.</span>
+                                </div>
+                                <div class="bg-paper p-3 rounded border border-forest/20 flex items-center gap-2.5">
+                                    <span class="text-lg">📉</span>
+                                    <span class="text-xs sm:text-sm font-medium">Pérdida del capital social o quiebra.</span>
+                                </div>
+                                <div class="bg-paper p-3 rounded border border-forest/20 flex items-center gap-2.5">
+                                    <span class="text-lg">🚫</span>
+                                    <span class="text-xs sm:text-sm font-medium">Imposibilidad de cumplir su objetivo.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-3.5 rounded-lg border-l-4 border-terracotta mt-4">
+                            <p class="text-xs sm:text-sm text-charcoal/90">
+                                <strong>Causa típica de la S.C.I.:</strong> Falta o retiro de todos los socios industriales sin ser reemplazados ni transformarse la sociedad dentro de los 3 meses.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center text-xs text-charcoal/60 border-t border-forest/15 pt-2">
+                    <span>Exposición: Lauti Z • Retiro y Disolución</span>
+                    <span class="font-hand text-lg text-forest">Diapositiva 8 de 9</span>
+                </div>
+            </section>
+
+            <!-- DIAPOSITIVA 9: LAUTI Z (Parte 2 y Conclusión) -->
+            <section class="slide w-full h-full flex-col justify-between" data-speaker="Lauti Z" data-notes="Cuando se disuelve, entra en una etapa de liquidación. Durante esta etapa se venden los bienes, se cobran los créditos pendientes y se pagan las deudas con los acreedores.<br><br>Si los bienes de la sociedad no alcanzan para pagar las deudas, los acreedores pueden reclamar a los socios capitalistas, mientras que el socio industrial no responde con su patrimonio personal.<br><br>Si después de pagar las deudas queda dinero, se devuelven los aportes a los socios capitalistas y el resto se distribuye entre los socios según lo acordado sobre las ganancias.<br>Finalmente, se cancela la inscripción en el Registro Público y la sociedad queda definitivamente extinguida.<br><br>Para concluir, la Sociedad de Capital e Industria se caracteriza por combinar capital y trabajo, mediante dos tipos de socios que realizan aportes diferentes y cumplen distintos roles dentro de la sociedad.">
+                <div class="flex justify-between items-center border-b-2 border-forest/15 pb-3">
+                    <div class="flex items-center gap-3">
+                        <span class="bg-forest text-ochre font-serif font-bold px-3 py-1 rounded text-sm">Expositor: Lauti Z</span>
+                        <h2 class="font-serif text-2xl md:text-3xl text-forest">Etapa de Liquidación y Conclusión Final</h2>
+                    </div>
+                    <span class="font-hand text-2xl text-terracotta hidden sm:block">Cierre de la Exposición</span>
+                </div>
+
+                <div class="my-auto py-3 space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+                        <div class="bg-white p-4 rounded-xl border-2 border-forest editorial-shadow-sm relative">
+                            <span class="w-7 h-7 rounded-full bg-forest text-paper font-bold text-xs flex items-center justify-center mb-2">1</span>
+                            <h4 class="font-serif font-bold text-base text-forest">Realización del Activo</h4>
+                            <p class="text-xs text-charcoal/80 mt-1">
+                                Se venden los bienes de la sociedad y se cobran todos los créditos pendientes.
+                            </p>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl border-2 border-forest editorial-shadow-sm relative">
+                            <span class="w-7 h-7 rounded-full bg-terracotta text-white font-bold text-xs flex items-center justify-center mb-2">2</span>
+                            <h4 class="font-serif font-bold text-base text-forest">Pago de Deudas</h4>
+                            <p class="text-xs text-charcoal/80 mt-1">
+                                Se paga a los acreedores. Si no alcanza, responden los <strong>capitalistas</strong> (el industrial no responde con su patrimonio).
+                            </p>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl border-2 border-forest editorial-shadow-sm relative">
+                            <span class="w-7 h-7 rounded-full bg-ochre text-charcoal font-bold text-xs flex items-center justify-center mb-2">3</span>
+                            <h4 class="font-serif font-bold text-base text-forest">Reembolso y Remanente</h4>
+                            <p class="text-xs text-charcoal/80 mt-1">
+                                Si sobra dinero, se devuelven los aportes a los capitalistas y el resto se reparte como ganancias entre todos.
+                            </p>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl border-2 border-forest editorial-shadow-sm relative">
+                            <span class="w-7 h-7 rounded-full bg-sage text-white font-bold text-xs flex items-center justify-center mb-2">4</span>
+                            <h4 class="font-serif font-bold text-base text-forest">Extinción Definitiva</h4>
+                            <p class="text-xs text-charcoal/80 mt-1">
+                                Se cancela la inscripción en el <strong>Registro Público</strong> y la sociedad queda extinguida.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="bg-forest text-paper p-6 rounded-xl editorial-shadow flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div class="space-y-2 max-w-2xl">
+                            <span class="text-xs uppercase tracking-widest text-ochre font-bold">Conclusión General del Equipo</span>
+                            <h3 class="font-serif text-2xl md:text-3xl leading-snug">
+                                “La Sociedad de Capital e Industria se caracteriza por combinar <span class="text-ochre italic">capital y trabajo</span>, mediante dos tipos de socios que realizan aportes diferentes y cumplen distintos roles dentro de la sociedad.”
+                            </h3>
+                            <p class="text-xs text-paper/70 pt-1">¡Muchas gracias por su atención! — More, Lauti, Luquitas y Lauti Z.</p>
+                        </div>
+
+                        <div class="bg-paper text-charcoal p-3 rounded-lg flex items-center gap-3 shrink-0">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=110x110&color=23382C&bgcolor=F6F3EC&data=Sociedad%20de%20Capital%20e%20Industria%20-%20Ley%2019550%20Arts%20141-145.%20Equipo:%20More,%20Lauti,%20Luquitas%20y%20Lauti%20Z." alt="QR Resumen" class="w-16 h-16">
+                            <div class="text-xs">
+                                <span class="font-bold text-forest block">Ficha Resumen</span>
+                                <span class="text-charcoal/70 text-[11px] block">Escaneá para guardar<br>los puntos clave.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center text-xs text-charcoal/60 border-t border-forest/15 pt-2">
+                    <span>Fin de la presentación • Ley General de Sociedades N.º 19.550</span>
+                    <span class="font-hand text-lg text-forest">Diapositiva 9 de 9</span>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- Panel Flotante con Guion Exacto -->
+        <div id="speaker-notes-modal" class="hidden absolute bottom-4 left-4 right-4 md:left-auto md:right-6 md:w-[450px] bg-[#23382C] text-paper p-5 rounded-xl shadow-2xl border-2 border-ochre z-50">
+            <div class="flex justify-between items-center border-b border-white/15 pb-2 mb-3">
+                <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-ochre animate-pulse"></span>
+                    <span class="text-xs font-bold uppercase tracking-wider text-ochre">Guion Exacto para decir oralmente:</span>
+                </div>
+                <button onclick="toggleNotes()" class="text-xs text-paper/70 hover:text-white">✕ Cerrar</button>
+            </div>
+            <div class="mb-2">
+                <span class="text-xs bg-white/10 px-2 py-0.5 rounded font-semibold" id="notes-speaker">Expositor</span>
+            </div>
+            <div id="notes-content" class="text-xs sm:text-sm leading-relaxed text-paper/90 max-h-56 overflow-y-auto pr-2">
+            </div>
+        </div>
+    </main>
+
+    <!-- Barra Inferior de Navegación -->
+    <footer class="w-full max-w-6xl flex justify-between items-center px-4 py-2.5 bg-[#2a2d29] text-paper rounded-b-xl border-t border-white/10 no-print">
+        <div class="flex items-center gap-3">
+            <button onclick="prevSlide()" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-medium transition flex items-center gap-1">
+                ← Anterior
+            </button>
+            <button onclick="nextSlide()" class="px-4 py-1.5 rounded-lg bg-terracotta hover:bg-terracotta/90 text-white text-xs font-medium transition flex items-center gap-1">
+                Siguiente →
+            </button>
+        </div>
+
+        <div class="flex items-center gap-1.5" id="dots-container"></div>
+
+        <div class="text-xs text-paper/60 hidden sm:block">
+            Usá las flechas del teclado <kbd class="px-1.5 py-0.5 bg-black/30 rounded text-paper">←</kbd> <kbd class="px-1.5 py-0.5 bg-black/30 rounded text-paper">→</kbd>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dotsContainer = document.getElementById('dots-container');
+        const notesModal = document.getElementById('speaker-notes-modal');
+        const notesContent = document.getElementById('notes-content');
+        const notesSpeaker = document.getElementById('notes-speaker');
+
+        slides.forEach((_, index) => {
+            const dot = document.createElement('button');
+            dot.className = `h-2 rounded-full transition-all ${index === 0 ? 'w-6 bg-ochre' : 'w-2 bg-white/30 hover:bg-white/50'}`;
+            dot.onclick = () => goToSlide(index);
+            dotsContainer.appendChild(dot);
+        });
+
+        function updateSlide() {
+            slides.forEach((slide, index) => {
+                slide.classList.toggle('active', index === currentSlide);
+            });
+
+            const dots = dotsContainer.children;
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].className = `h-2 rounded-full transition-all ${i === currentSlide ? 'w-6 bg-ochre' : 'w-2 bg-white/30 hover:bg-white/50'}`;
+            }
+
+            const activeSlide = slides[currentSlide];
+            notesSpeaker.textContent = "Turno de: " + activeSlide.getAttribute('data-speaker');
+            notesContent.innerHTML = activeSlide.getAttribute('data-notes');
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateSlide();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            updateSlide();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSlide();
+        }
+
+        function toggleNotes() {
+            notesModal.classList.toggle('hidden');
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(err);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            } else if (e.key === 'n' || e.key === 'N') {
+                toggleNotes();
+            }
+        });
+
+        updateSlide();
+    </script>
+</body>
+</html>
